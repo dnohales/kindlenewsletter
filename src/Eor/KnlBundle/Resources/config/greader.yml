@@ -1,0 +1,12 @@
+parameters:
+    greader_config.class: Eor\KnlBundle\GoogleReader\Configuration
+    greader_client.class: Eor\KnlBundle\GoogleReader\Client
+
+services:
+    greader_config:
+        class: %greader_config.class%
+        arguments: [%greader_config.client_id%, %greader_config.email_address%, %greader_config.client_secret%, %greader_config.redirect_uri%, %greader_config.javascript_origin%]
+    
+    greader_client:
+        class: %greader_client.class%
+        arguments: [@greader_config, @security.context, @logger]

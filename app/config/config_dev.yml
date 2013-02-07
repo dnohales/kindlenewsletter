@@ -7,7 +7,7 @@ framework:
 
 web_profiler:
     toolbar: true
-    intercept_redirects: false
+    intercept_redirects: true
 
 monolog:
     handlers:
@@ -15,6 +15,10 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+        error:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%_err.log"
+            level: error
         firephp:
             type:  firephp
             level: info

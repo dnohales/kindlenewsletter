@@ -1,0 +1,14 @@
+homepage:
+    pattern: /
+    defaults: { _controller: EorKnlBundle:Reader:index }
+
+login:
+    pattern:  /login
+    defaults: { _controller: EorKnlBundle:Login:login }
+    
+login_google_check:
+    pattern:  /login/google_check
+    defaults: { _controller: EorKnlBundle:Login:googleCheck }
+    
+logout:
+    pattern: /logout
