@@ -13,7 +13,7 @@
 			{% include 'EorKnlBundle:Common:_flash.html.twig' with {'message': app.session.getFlash('login.error')} %}
 		{% endif %}
 		<div id="google_login_container">
-			<a href="{{ loginUrl }}" class="kindlebutton">Sign-In with Google</a>
+			<a href="#" data-href="{{ loginUrl }}" onclick="window.location = $(this).attr('data-href'); return false;" class="kindlebutton">Sign-In with Google</a>
 		</div>
 		<div class="footer">
 			<p>Source code of KindleNewsletter.com is available on
