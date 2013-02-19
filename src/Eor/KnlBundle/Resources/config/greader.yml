@@ -1,6 +1,8 @@
 parameters:
     greader_config.class: Eor\KnlBundle\GoogleReader\Configuration
     greader_client.class: Eor\KnlBundle\GoogleReader\Client
+    greader_service.class: Eor\KnlBundle\GoogleReader\Wrapper\ClientService
+    greader_exception_listener.class: Eor\KnlBundle\GoogleReader\Listener\ExceptionListener
 
 services:
     greader_config:
@@ -10,3 +12,13 @@ services:
     greader_client:
         class: %greader_client.class%
         arguments: [@greader_config, @security.context, @logger]
+        
+    greader_service:
+        class: %greader_service.class%
+        arguments: [@greader_client]
+        
+    greader_exception_listener:
+        class: %greader_exception_listener.class%
+        arguments: [@greader_client]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
