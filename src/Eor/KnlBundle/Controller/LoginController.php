@@ -5,6 +5,7 @@ namespace Eor\KnlBundle\Controller;
 use Eor\KnlBundle\GoogleReader\AccessDeniedException;
 use Eor\KnlBundle\Security\GoogleAccessToken;
 use Eor\KnlBundle\Entity\User;
+use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * Description of LoginController
@@ -53,7 +54,16 @@ class LoginController extends Controller {
 			$token->setUser($user);
 			$this->getRequest()->getSession()->set('_security_secured_area',  serialize($token));
 			
-			return $this->redirect($this->generateUrl('homepage'));
+			$redirectUrl = $this->generateUrl('homepage');
+			$state = $this->getRequest()->get('state');
+			if($state !== null){
+				$urlErrors = $this->get('validator')->validateValue($state, new Url());
+				if(count($urlErrors) == 0){
+					$redirectUrl = $state;
+				}
+			}
+			
+			return $this->redirect($redirectUrl);
 		} catch(AccessDeniedException $e){
 			$this->get('session')->setFlash('login.error', 'You must grant access to your Google Account so that the application can run.');
 			$this->get('logger')->err('Login error: '.$e->getMessage());

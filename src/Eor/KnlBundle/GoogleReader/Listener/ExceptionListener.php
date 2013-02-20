@@ -24,7 +24,8 @@ class ExceptionListener
 	public function onKernelException(GetResponseForExceptionEvent $event)
 	{
 		if($event->getException() instanceof GoogleApiTokenException){
-			$response = new RedirectResponse($this->googleClient->getAuthenticator()->getLoginUrl());
+			$currentUri = $event->getRequest()->getUri();
+			$response = new RedirectResponse($this->googleClient->getAuthenticator()->getLoginUrl($currentUri));
 			$event->setResponse($response);
 		}
 	}

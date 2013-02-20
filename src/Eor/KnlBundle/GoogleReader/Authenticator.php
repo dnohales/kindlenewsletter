@@ -30,7 +30,7 @@ class Authenticator
 		return $this->configuration;
 	}
 	
-	public function getLoginUrl()
+	public function getLoginUrl($state = null)
 	{
 		$scopes = array(
 			"http://www.google.com/reader/api",
@@ -38,11 +38,17 @@ class Authenticator
 			"https://www.googleapis.com/auth/userinfo.email",
 		);
 		
-		return self::OAUTH2_AUTH_URL."?".
+		$url = self::OAUTH2_AUTH_URL."?".
 			   "scope=".urlencode(implode(' ', $scopes)).
 			   "&redirect_uri=".urlencode($this->getConfiguration()->getRedirectUri()).
 			   "&client_id=".urlencode($this->getConfiguration()->getClientId()).
 			   "&response_type=code";
+		
+		if($state !== null){
+			$url .= '&state='.urlencode($state);
+		}
+		
+		return $url;
 	}
 	
 	public function getTokenInformation(Request $request)
