@@ -1,0 +1,11 @@
+{% spaceless %}
+<ul class="generic-list item-list">
+	{% for i in items %}
+		<li class="{{ not i.readed? 'unreaded':'readed' }}">
+			<a class="main-link" href="#">
+				<span class="title">{{ i.title }}</span>
+			</a>
+		</li>
+	{% endfor %}
+</ul>
+{% endspaceless %}

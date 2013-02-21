@@ -1,18 +1,6 @@
-root {
-	display: block;
-}
-
-html, body {
-	background-color: white;
-	color: black;
-	font-family: sans-serif;
-	font-size: 1em;
-	line-height: 1.5em;
-}
-
-h1, h2, h3, h4, h5, h6, h7 {
-	line-height: 1.2em;
-}
+@import "colors";
+@import "common";
+@import "mixin";
 
 #container_authorize_wrapper {
 	margin: 0pt 10pt;
@@ -73,5 +61,78 @@ h1, h2, h3, h4, h5, h6, h7 {
 		margin-left: 10px;
 		vertical-align: middle;
 		width: 70%;
+	}
+	img {
+		vertical-align: middle;
+	}
+}
+
+.top-menu {
+	background-color: $topmenu-bg;
+	border-bottom: 1px solid $topmenu-border-color;
+	padding: 10px 30px;
+	.current-page {
+		font-size: 1.5em;
+		float: left;
+	}
+	.buttons {
+		float: right;
+	}
+	@include clearfix;
+}
+
+.popmenu {
+	.popmenu-items {
+		display: none;
+	}
+	img {
+		vertical-align: middle;
+	}
+}
+
+.generic-list {
+	@include clearfix;
+	margin: 0;
+    padding: 0;
+	li {
+		list-style-image: none;
+		list-style-type: none;
+		border-bottom: solid 1px lightgray;
+	}
+	li a:last-child {
+		color: black;
+		text-decoration: none;
+		display: block;
+		padding: 15px 25px 15px 30px;
+	}
+	li.readed a:last-child {
+		color: #777;
+	}
+	img {
+		vertical-align: middle;
+		max-width: 18px;
+		max-height: 18px;
+		margin-right: 12px;
+	}
+	
+	span.title {
+		vertical-align: middle;
+		display: inline-block;
+	}
+}
+
+.stream-list {
+	span.title {
+		width: 75%;
+	}
+	
+	span.count {
+		float: right;
+	}
+}
+
+.item-list {
+	span.title {
+		width: 90%;
 	}
 }

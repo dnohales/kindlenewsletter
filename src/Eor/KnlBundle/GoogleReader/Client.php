@@ -17,6 +17,13 @@ class Client
 {
 	const READER_BASE_PATH = 'https://www.google.com/reader/api/0/';
 	
+	const STATE_READ = 'user/-/state/com.google/read';
+	const STATE_STAR = 'user/-/state/com.google/starred';
+	
+	const SORT_NEW = 'n';
+	const SORT_OLD = 'o';
+	const SORT_AUTO = 'a';
+	
 	private $authenticator;
 	private $configuration;
 	private $securityContext;
@@ -109,59 +116,42 @@ class Client
 	
 	public function getSubscriptions()
 	{
-		$subscriptions = array();
-		$all = array();
+		$subscriptions = new Model\Index();
 		$subscriptionsData = $this->readerRequest('subscription/list');
+		$countData = $this->readerRequest('unread-count');
 		
 		foreach($subscriptionsData['subscriptions'] as $s){
-			$feed = $this->createFeed($s);
-			if(count($s['categories']) > 0){
-				foreach($s['categories'] as $cat){
-					if(!isset($subscriptions[$cat['id']])){
-						$category = $this->createCategory($cat);
-						$subscriptions[$category->getId()] = $category;
-						$all[$category->getId()] = $category;
-					} else {
-						$category = $subscriptions[$cat['id']];
-					}
-					$category->addFeed($feed);
-				}
-			} else {
-				$subscriptions[$feed->getId()] = $feed;
-				$all[$feed->getId()] = $feed;
-			}
+			$subscriptions->addFeedByData($s);
 		}
 		
-		$countData = $this->readerRequest('unread-count');
 		foreach($countData['unreadcounts'] as $c){
-			if( isset($all[$c['id']]) ){
-				$all[$c['id']]->setCount($c['count']);
+			if( $subscriptions->has($c['id']) ){
+				$subscriptions->get($c['id'])->setCount(isset($c['count'])? $c['count']:null);
+				$subscriptions->get($c['id'])->setNewestItemTimestampUsec(isset($c['newestItemTimestampUsec'])? $c['newestItemTimestampUsec']:null);
 			}
 		}
 		
-		return new ArrayCollection($subscriptions);
+		return $subscriptions;
 	}
 	
-	private function createFeed($s)
+	public function getItemList(Model\Stream $stream, $sort, $number, $excludeTargets, $continuation, $startTime = null)
 	{
-		$feed = new Model\Stream();
-		$feed->setIconType(Model\Stream::ICON_FEED);
-		$feed->setId($s['id']);
-		$feed->setTitle($s['title']);
-		$feed->setSortId($s['sortid']);
-		//$feed->setHtmlUrl($s['htmlUrl']);
+		$id = $stream->getId();
+		if(strpos($id, 'feed/') === 0){
+			$id = 'feed/'.urlencode(substr($id, 5));
+		}
 		
-		return $feed;
-	}
-	
-	private function createCategory($cat)
-	{
-		$category = new Model\Stream();
-		$category->setIconType(Model\Stream::ICON_CATEGORY);
-		$category->setId($cat['id']);
-		$category->setTitle($cat['label']);
+		$getFields = array(
+			'r' => $sort,
+			'n' => $number
+		);
 		
-		return $category;
+		if($excludeTargets !== null) $getFields['xt'] = $excludeTargets;
+		if($continuation !== null) $getFields['c'] = $continuation;
+		if($startTime !== null) $getFields['ot'] = $startTime;
+		
+		$itemsData = $this->readerRequest('stream/contents/'.$id, 'GET', $getFields);
+		return Model\Factory::createItemList($stream, $itemsData);
 	}
 
 }

@@ -1,6 +1,14 @@
 homepage:
     pattern: /
     defaults: { _controller: EorKnlBundle:Reader:index }
+    
+category_feed_list:
+    pattern: /category/{id}
+    defaults: { _controller: EorKnlBundle:Reader:categoryFeedList }
+
+item_list:
+    pattern: /items/{continuation}/{id}
+    defaults: { _controller: EorKnlBundle:Reader:itemList, continuation: 0 }
 
 login:
     pattern:  /login

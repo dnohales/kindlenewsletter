@@ -1,0 +1,29 @@
+root {
+	display: block;
+}
+
+html, body {
+	background-color: white;
+	color: black;
+	font-family: sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+	line-height: 1.2em;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clearfix {
+	clear: both;
+}

@@ -1,0 +1,18 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+<div class="top-menu">
+	<div class="current-page">{{ list.stream.title }}</div>
+	<div class="buttons">
+		
+		<div class="popmenu">
+			<a href="#"><img src="{{ asset('bundles/eorknl/img/icon/settings.png') }}" /></a>
+			<ul class="popmenu-items">
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="reader-content">
+	{% include 'EorKnlBundle:Reader:_itemList.html.twig' with {'items':list.items} %}
+</div>
+{% endblock %}

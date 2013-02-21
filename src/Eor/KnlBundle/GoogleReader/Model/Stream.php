@@ -23,7 +23,7 @@ class Stream
 	
 	private $count;
 	
-	private $newestItemTimestamp;
+	private $newestItemTimestampUsec;
 	
 	private $htmlUrl;
 	
@@ -76,14 +76,14 @@ class Stream
 		$this->count = $count;
 	}
 
-	public function getNewestItemTimestamp()
+	public function getNewestItemTimestampUsec()
 	{
-		return $this->newestItemTimestamp;
+		return $this->newestItemTimestampUsec;
 	}
 
-	public function setNewestItemTimestamp($newestItemTimestamp)
+	public function setNewestItemTimestampUsec($newestItemTimestampUsec)
 	{
-		$this->newestItemTimestamp = $newestItemTimestamp;
+		$this->newestItemTimestampUsec = $newestItemTimestampUsec;
 	}
 	
 	public function getHtmlUrl()
