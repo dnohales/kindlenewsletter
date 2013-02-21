@@ -43,8 +43,8 @@ class Factory
 		
 		$item->setId(self::getKey($data, 'id'));
 		$item->setTitle(self::getKey($data, 'title'));
-		$item->setPublished(self::getKey($data, 'published'));
-		$item->setUpdated(self::getKey($data, 'updated'));
+		$item->setPublished(new \DateTime('@'.self::getKey($data, 'published')));
+		$item->setUpdated(new \DateTime('@'.self::getKey($data, 'updated')));
 		$item->setLink(self::getKey(
 			self::getKey($data, 'canonical', array()),
 			'href'
@@ -70,11 +70,13 @@ class Factory
 		return $item;
 	}
 	
-	public static function createItemList(Stream $stream, $data)
+	public static function createItemList(Stream $stream, $data, $currentContinuation)
 	{
 		$list = new ItemList($stream);
 		
 		$list->setContinuation(self::getKey($data, 'continuation'));
+		$list->setCurrentContinuation($currentContinuation);
+		
 		foreach (self::getKey($data, 'items', array()) as $i) {
 			$list->addItem(self::createItem($i));
 		}

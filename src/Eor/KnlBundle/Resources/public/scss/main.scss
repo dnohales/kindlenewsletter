@@ -136,3 +136,30 @@
 		width: 90%;
 	}
 }
+
+.item-detail {
+	margin: 7pt 30px 10pt;
+	h1.title {
+		margin: 0;
+		padding: 0;
+		font-size: 1.5em;
+	}
+	.streamtitle {
+		color: #555;
+		margin: 0.8em 0;
+		font-style: italic;
+	}
+	.metainfo {
+		margin: 0.8em 0;
+	}
+	.content {
+		img {
+			max-width: 100%;
+			//Keep aspect ratio
+			height: auto;
+		}
+		pre {
+			white-space: pre-wrap;
+		}
+	}
+}

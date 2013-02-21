@@ -45,6 +45,19 @@ class Stream
 	{
 		$this->id = $id;
 	}
+	
+	public static function idToKey($id)
+	{
+		$id = str_replace('http://', '', $id);
+		$id = str_replace('/', '-', $id);
+		$id = trim($id, '-');
+		return $id;
+	}
+	
+	public function getKey()
+	{
+		return self::idToKey($this->getId());
+	}
 
 	public function getTitle()
 	{

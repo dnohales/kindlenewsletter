@@ -125,9 +125,10 @@ class Client
 		}
 		
 		foreach($countData['unreadcounts'] as $c){
-			if( $subscriptions->has($c['id']) ){
-				$subscriptions->get($c['id'])->setCount(isset($c['count'])? $c['count']:null);
-				$subscriptions->get($c['id'])->setNewestItemTimestampUsec(isset($c['newestItemTimestampUsec'])? $c['newestItemTimestampUsec']:null);
+			$cid = Model\Stream::idToKey($c['id']);
+			if( $subscriptions->has($cid) ){
+				$subscriptions->get($cid)->setCount(isset($c['count'])? $c['count']:null);
+				$subscriptions->get($cid)->setNewestItemTimestampUsec(isset($c['newestItemTimestampUsec'])? $c['newestItemTimestampUsec']:null);
 			}
 		}
 		
@@ -151,7 +152,7 @@ class Client
 		if($startTime !== null) $getFields['ot'] = $startTime;
 		
 		$itemsData = $this->readerRequest('stream/contents/'.$id, 'GET', $getFields);
-		return Model\Factory::createItemList($stream, $itemsData);
+		return Model\Factory::createItemList($stream, $itemsData, $continuation);
 	}
 
 }

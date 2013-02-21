@@ -24,19 +24,20 @@ class Index
 		$feed = Factory::createFeed($feedData);
 		if (count($feedData['categories']) > 0) {
 			foreach ($feedData['categories'] as $cat) {
-				if (!$this->has($cat['id'])) {
+				$catId = Stream::idToKey($cat['id']);
+				if (!$this->has($catId)) {
 					$category = Factory::createCategory($cat);
-					$this->all->set($category->getId(), $category);
-					$this->categorized->set($category->getId(), $category);
+					$this->all->set($catId, $category);
+					$this->categorized->set($catId, $category);
 				} else {
-					$category = $this->get($cat['id']);
+					$category = $this->get($catId);
 				}
 				$category->addFeed($feed);
 			}
 		} else {
-			$this->categorized->set($feed->getId(), $feed);
+			$this->categorized->set($feed->getKey(), $feed);
 		}
-		$this->all->set($feed->getId(), $feed);
+		$this->all->set($feed->getKey(), $feed);
 	}
 	
 	public function has($id)

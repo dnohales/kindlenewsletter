@@ -1,8 +1,8 @@
 {% spaceless %}
 <ul class="generic-list item-list">
-	{% for i in items %}
+	{% for i in list.items %}
 		<li class="{{ not i.readed? 'unreaded':'readed' }}">
-			<a class="main-link" href="#">
+			<a class="main-link" href="{{ path('item_detail', {'continuation':list.currentContinuation is null? '0':list.currentContinuation, 'id': list.stream.key, 'itemKey': i.key}) }}">
 				<span class="title">{{ i.title }}</span>
 			</a>
 		</li>

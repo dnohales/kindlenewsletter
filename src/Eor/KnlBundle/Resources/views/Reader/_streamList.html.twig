@@ -2,9 +2,9 @@
 <ul class="generic-list stream-list">
 	{% for s in streams %}
 		{% if s.isLeaf %}
-			{% set url = path("item_list", {"id": s.id|url_encode}) %}
+			{% set url = path("item_list", {"id": s.key|url_encode}) %}
 		{% else %}
-			{% set url = path("category_feed_list", {"id": s.id|url_encode}) %}
+			{% set url = path("category_feed_list", {"id": s.key|url_encode}) %}
 		{% endif %}
 		<li class="{{ s.count? 'unreaded':'readed' }}">
 			<a class="main-link" href="{{ url }}">

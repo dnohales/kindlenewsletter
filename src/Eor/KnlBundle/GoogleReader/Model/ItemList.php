@@ -14,6 +14,8 @@ class ItemList
 	
 	private $continuation;
 	
+	private $currentContinuation;
+	
 	private $items;
 	
 	public function __construct(Stream $stream)
@@ -37,9 +39,19 @@ class ItemList
 		$this->continuation = $continuation;
 	}
 	
+	public function getCurrentContinuation()
+	{
+		return $this->currentContinuation;
+	}
+
+	public function setCurrentContinuation($currentContinuation)
+	{
+		$this->currentContinuation = $currentContinuation;
+	}
+	
 	public function addItem(Item $item)
 	{
-		$this->items->set($item->getId(), $item);
+		$this->items->set($item->getKey(), $item);
 	}
 	
 	public function getItems()

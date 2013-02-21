@@ -27,30 +27,40 @@ class ReaderController extends Controller
 		));
 	}
 	
-	public function itemListAction($continuation, $id)
+	private function getItemList($id, $continuation)
 	{
 		/* @var $greader \Eor\KnlBundle\GoogleReader\Wrapper\ClientService */
 		$greader = $this->get('greader_service');
-		
-		$cacheDir = $this->get('kernel')->getCacheDir().'/greader';
-		@mkdir($cacheDir);
-		
-		if(file_exists($cacheDir.'/items')){
-			$itemList = unserialize(file_get_contents($cacheDir.'/items'));
-		} else {
-			$subscriptions = $greader->getSubscriptions();
-			$stream = $subscriptions->get(urldecode($id));
-			if($stream === null){
-				throw $this->createNotFoundException();
-			}
 
-			$continuation = $continuation == 0? null:$continuation;
-			$itemList = $greader->getItemList($stream, \Eor\KnlBundle\GoogleReader\Client::SORT_NEW, 20, null, $continuation);
-			file_put_contents($cacheDir.'/items', serialize($itemList));
+		$subscriptions = $greader->getSubscriptions();
+		$stream = $subscriptions->get(urldecode($id));
+		if($stream === null){
+			throw $this->createNotFoundException();
 		}
+
+		$continuation = $continuation == 0? null:$continuation;
+		return $greader->getItemList($stream, \Eor\KnlBundle\GoogleReader\Client::SORT_NEW, 20, null, $continuation);
+	}
+	
+	public function itemListAction($continuation, $id)
+	{
+		$itemList = $this->getItemList($id, $continuation);
 		
 		return $this->render('EorKnlBundle:Reader:itemList.html.twig', array(
 			'list' => $itemList
+		));
+	}
+	
+	public function itemDetailAction($continuation, $id, $itemKey)
+	{
+		$itemList = $this->getItemList($id, $continuation);
+		if($itemList->getItems()->get($itemKey) === null){
+			throw $this->createNotFoundException();
+		}
+		
+		return $this->render('EorKnlBundle:Reader:itemDetail.html.twig', array(
+			'list' => $itemList,
+			'item' => $itemList->getItems()->get($itemKey)
 		));
 	}
 }

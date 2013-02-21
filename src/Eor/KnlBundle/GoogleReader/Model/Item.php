@@ -43,6 +43,18 @@ class Item
 	{
 		$this->id = $id;
 	}
+	
+	public static function idToKey($id)
+	{
+		$id = str_replace('tag:google.com,2005:reader/item/', '', $id);
+		$id = str_replace('/', '-', $id);
+		return $id;
+	}
+	
+	public function getKey()
+	{
+		return self::idToKey($this->getId());
+	}
 
 	public function getTitle()
 	{

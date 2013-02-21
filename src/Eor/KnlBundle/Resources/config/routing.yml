@@ -10,6 +10,10 @@ item_list:
     pattern: /items/{continuation}/{id}
     defaults: { _controller: EorKnlBundle:Reader:itemList, continuation: 0 }
 
+item_detail:
+    pattern: /read/{continuation}/{id}/{itemKey}
+    defaults: { _controller: EorKnlBundle:Reader:itemDetail, continuation: 0 }
+
 login:
     pattern:  /login
     defaults: { _controller: EorKnlBundle:Login:login }
