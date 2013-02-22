@@ -13,9 +13,8 @@
 	</div>
 </div>
 <div class="reader-content item-detail">
-	<p class="streamtitle">{{ list.stream.title|trim(".") }}</p>
 	<h1 class="title">{{ item.title }}</h1>
-	<p class="metainfo">By {{ item.author }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ item.published|date }}.</p>
+	<p class="metainfo">{{ list.stream.title|trim(".") }}&nbsp;&nbsp;|&nbsp;&nbsp;By {{ item.author }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ item.published|date }}.</p>
 	<div class="content">
 		{{ item.content|raw }}
 	</div>
