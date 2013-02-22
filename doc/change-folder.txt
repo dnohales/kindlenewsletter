@@ -1,0 +1,9 @@
+URL: http://www.google.com/reader/api/0/subscription/edit?client=scroll&hl=es
+Respuesta: OK
+
+POST input:
+T	//1MHrqqUdfi74w3XepYRgmg
+a	user/00694065464150071004/label/Software individual
+ac	edit
+s	feed/http://flavio.tordini.org/feed
+t	Flavio Tordini

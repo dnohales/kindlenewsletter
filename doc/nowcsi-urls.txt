@@ -1,0 +1,42 @@
+Index
+http://nowsci.com/reader/kindle3/
+
+
+Feed item list:
+http://nowsci.com/reader/kindle3/items.php?_refresh=1&_id=feed%2Fhttp%3A%2F%2Fwww.lanacion.com.ar%2Fherramientas%2Frss%2Findex.asp
+
+Feed items list 2nd page:
+http://nowsci.com/reader/kindle3/items.php?_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp&_page=1&_cont=CLSe9O2IwLUC
+
+Feed items list 3rd page:
+http://nowsci.com/reader/kindle3/items.php?_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp&_page=2&_cont=CJvi8pnyv7UC
+
+Feed items list 4th page:
+http://nowsci.com/reader/kindle3/items.php?_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp&_page=3&_cont=CK_0g7PWv7UC
+
+2nd item from page 4:
+http://nowsci.com/reader/kindle3/itemDetails.php?_index=1&_page=3&_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp
+
+Star that item:
+http://nowsci.com/reader/kindle3/itemDetails.php?_index=1&_page=3&_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp&star=1&s_id=tag:google.com,2005:reader/item/c23d53bf4d9f5545
+
+Make unread that item:
+http://nowsci.com/reader/kindle3/itemDetails.php?_index=1&_page=3&_id=feed/http://www.lanacion.com.ar/herramientas/rss/index.asp&read=0&r_id=tag:google.com,2005:reader/item/c23d53bf4d9f5545
+
+
+All Starred Items
+http://nowsci.com/reader/kindle3/items.php?_refresh=1&_id=user%2F-%2Fstate%2Fcom.google%2Fstarred
+
+3rd item from All Starred Items
+http://nowsci.com/reader/kindle3/itemDetails.php?_index=2&_page=0&_id=user/-/state/com.google/starred
+
+Mark unread 3rd item from All Starred Items
+http://nowsci.com/reader/kindle3/itemDetails.php?_index=3&_page=0&_id=user/-/state/com.google/starred&read=0&r_id=tag:google.com,2005:reader/item/40b6bf5d510518f9
+
+
+Tag feed list:
+http://nowsci.com/reader/kindle3/index.php?_id=user/00694065464150071004/label/Software
+
+Tag full items list:
+http://nowsci.com/reader/kindle3/items.php?_refresh=1&_id=user%2F00694065464150071004%2Flabel%2FSoftware
+
