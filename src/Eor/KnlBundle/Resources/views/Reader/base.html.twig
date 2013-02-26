@@ -1,0 +1,36 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+{% block top_menu %}
+	<div class="top-menu">
+		<div class="left">
+			{% if up_url is defined %}
+				<a href="{{ up_url }}"><img src="{{ asset('bundles/eorknl/img/icon/up.png') }}" /></a>
+			{% endif %}
+			{% block top_menu_left %}{% endblock %}
+		</div>
+		<div class="right">
+			{% block top_menu_right %}
+				<a href="#"><img src="{{ asset('bundles/eorknl/img/icon/settings.png') }}" /></a>
+				<div class="popmenu">
+					<ul class="popmenu-items">
+						{% block top_menu_popmenu_items %}
+							<li><a href="{{ path("logout") }}">Logout</a></li>
+							<li><a href="#">Donate :-)</a></li>
+							<li><a href="#">Help</a></li>
+						{% endblock %}
+					</ul>
+				</div>
+			{% endblock %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block reader_content %}
+<div class="reader-content">
+	{% include 'EorKnlBundle:Reader:_streamList.html.twig' with {'streams':streams.categorized} %}
+</div>
+{% endblock %}
+
+{% endblock %}

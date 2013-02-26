@@ -1,22 +1,20 @@
-{% extends "::base.html.twig" %}
+{% extends "EorKnlBundle:Reader:base.html.twig" %}
 
-{% block body %}
-<div class="top-menu">
-	<div class="current-page"></div>
-	<div class="buttons">
-		
-		<div class="popmenu">
-			<a href="#"><img src="{{ asset('bundles/eorknl/img/icon/settings.png') }}" /></a>
-			<ul class="popmenu-items">
-			</ul>
+{% block top_menu_left %}
+	
+{% endblock %}
+
+{% block top_menu_popmenu_items %}
+	<li><a href="{{ path("homepage") }}">Back to homepage</a></li>
+	{{ parent() }}
+{% endblock %}
+
+{% block reader_content %}
+	<div class="item-detail">
+		<h1 class="title">{{ item.title }}</h1>
+		<p class="metainfo">{{ list.stream.title|trim(".") }}&nbsp;&nbsp;|&nbsp;&nbsp;By {{ item.author }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ item.published|date }}.</p>
+		<div class="content">
+			{{ item.content|raw }}
 		</div>
 	</div>
-</div>
-<div class="reader-content item-detail">
-	<h1 class="title">{{ item.title }}</h1>
-	<p class="metainfo">{{ list.stream.title|trim(".") }}&nbsp;&nbsp;|&nbsp;&nbsp;By {{ item.author }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ item.published|date }}.</p>
-	<div class="content">
-		{{ item.content|raw }}
-	</div>
-</div>
 {% endblock %}
