@@ -29,6 +29,8 @@ class Stream
 	
 	private $iconType;
 	
+	private $isMultipleSource;
+	
 	private $feeds;
 	
 	private $categories;
@@ -121,6 +123,16 @@ class Stream
 	public function setIconType($iconType)
 	{
 		$this->iconType = $iconType;
+	}
+	
+	public function isMultipleSource()
+	{
+		return $this->isMultipleSource;
+	}
+
+	public function setIsMultipleSource($isMultipleSource)
+	{
+		$this->isMultipleSource = $isMultipleSource;
 	}
 	
 	public function getFeeds()

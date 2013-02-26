@@ -12,7 +12,7 @@ class ReaderController extends Controller
 		$greader = $this->get('greader_service');
 		
         return $this->render('EorKnlBundle:Reader:index.html.twig', array(
-			'streams' => $greader->getSubscriptions()
+			'subscriptions' => $greader->getSubscriptions()
 		));
     }
 	

@@ -1,32 +1,10 @@
 {% spaceless %}
 <ul class="generic-list stream-list">
+	{% if category is defined %}
+		{% include 'EorKnlBundle:Reader:_streamRow.html.twig' with {'stream': category, 'is_category': true} %}
+	{% endif %}
 	{% for s in streams %}
-		{% if s.isLeaf %}
-			{% set url = path("item_list", {"id": s.key}) %}
-		{% else %}
-			{% set url = path("category_feed_list", {"id": s.key}) %}
-		{% endif %}
-		<li class="{{ s.count? 'unreaded':'readed' }}">
-			<a class="main-link" href="{{ url }}">
-				<img src="
-				{% if s.iconType == constant('Eor\\KnlBundle\\GoogleReader\\Model\\Stream::ICON_CATEGORY') %}
-					{{ asset('bundles/eorknl/img/icon/folder.png') }}
-				{% elseif s.iconType == constant('Eor\\KnlBundle\\GoogleReader\\Model\\Stream::ICON_FEED') %}
-					{{ asset('bundles/eorknl/img/icon/rss.png') }}
-				{% elseif s.iconType == constant('Eor\\KnlBundle\\GoogleReader\\Model\\Stream::ICON_STAR') %}
-					{{ asset('bundles/eorknl/img/icon/star.png') }}
-				{% else %}
-					{{ asset('bundles/eorknl/img/icon/pixel.png') }}
-				{% endif %}
-				" />
-				<span class="title">{{ s.title }}</span>
-				{% if s.count %}
-					<span class="count">
-						{{ s.count }}{% if s.count == 1000 %}+{% endif %}
-					</span>
-				{% endif %}
-			</a>
-		</li>
+		{% include 'EorKnlBundle:Reader:_streamRow.html.twig' with {'stream': s} %}
 	{% endfor %}
 </ul>
 {% endspaceless %}

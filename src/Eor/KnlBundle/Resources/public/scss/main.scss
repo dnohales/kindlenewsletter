@@ -161,8 +161,8 @@
 	}
 	img {
 		vertical-align: middle;
-		max-width: 18px;
-		max-height: 18px;
+		width: 18px;
+		height: auto;
 		margin-right: 12px;
 	}
 	
@@ -185,6 +185,11 @@
 .item-list {
 	span.title {
 		width: 90%;
+		color: black;
+	}
+	span.origin {
+		color: #777;
+		font-style: italic;
 	}
 	li.nextpage span.title {
 		font-style: italic;

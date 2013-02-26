@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block reader_content %}
-	{% include 'EorKnlBundle:Reader:_streamList.html.twig' with {'streams':category.feeds} %}
+	{% include 'EorKnlBundle:Reader:_streamList.html.twig' with {'category': category, 'streams':category.feeds} %}
 {% endblock %}

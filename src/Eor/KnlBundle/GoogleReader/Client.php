@@ -18,6 +18,7 @@ class Client
 	const READER_BASE_PATH = 'https://www.google.com/reader/api/0/';
 	
 	const STATE_READ = 'user/-/state/com.google/read';
+	const STATE_READING_LIST = 'user/-/state/com.google/reading-list';
 	const STATE_STAR = 'user/-/state/com.google/starred';
 	
 	const SORT_NEW = 'n';
@@ -122,11 +123,18 @@ class Client
 		
 		$subscriptions->setUpdated(new \DateTime('now'));
 		
+		$subscriptions->addFeed(Model\Factory::createGlobalUnreadFeed());
+		$subscriptions->addFeed(Model\Factory::createStarredFeed());
+		
 		foreach($subscriptionsData['subscriptions'] as $s){
 			$subscriptions->addFeedByData($s);
 		}
 		
 		foreach($countData['unreadcounts'] as $c){
+			if(preg_match('$'.str_replace('/-/', '/\d+/', self::STATE_READING_LIST).'$', $c['id']) > 0){
+				$c['id'] = self::STATE_READING_LIST;
+			}
+			
 			$cid = Model\Stream::idToKey($c['id']);
 			if( $subscriptions->has($cid) ){
 				$subscriptions->get($cid)->setCount(isset($c['count'])? $c['count']:null);
@@ -142,6 +150,8 @@ class Client
 		$id = $stream->getId();
 		if(strpos($id, 'feed/') === 0){
 			$id = 'feed/'.urlencode(substr($id, 5));
+		} else {
+			$id = urlencode($id);
 		}
 		
 		$getFields = array(

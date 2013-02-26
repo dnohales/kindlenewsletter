@@ -41,6 +41,12 @@ class Index
 		$this->all->set($feed->getKey(), $feed);
 	}
 	
+	public function addFeed(Stream $feed)
+	{
+		$this->all->set($feed->getKey(), $feed);
+		$this->categorized->set($feed->getKey(), $feed);
+	}
+	
 	public function has($id)
 	{
 		return $this->all->containsKey($id);

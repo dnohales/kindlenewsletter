@@ -23,6 +23,7 @@ class Factory
 		$feed->setTitle(self::getKey($data, 'title'));
 		$feed->setSortId(self::getKey($data, 'sortid'));
 		$feed->setHtmlUrl(self::getKey($data, 'htmlUrl'));
+		$feed->setIsMultipleSource(false);
 		
 		return $feed;
 	}
@@ -33,6 +34,7 @@ class Factory
 		$category->setIconType(Stream::ICON_CATEGORY);
 		$category->setId(self::getKey($data, 'id'));
 		$category->setTitle(self::getKey($data, 'label'));
+		$category->setIsMultipleSource(true);
 		
 		return $category;
 	}
@@ -90,5 +92,27 @@ class Factory
 		}
 		
 		return $list;
+	}
+	
+	public static function createGlobalUnreadFeed()
+	{
+		$feed = new Stream();
+		$feed->setIconType(Stream::ICON_NONE);
+		$feed->setId(Client::STATE_READING_LIST);
+		$feed->setTitle('All items');
+		$feed->setIsMultipleSource(true);
+		
+		return $feed;
+	}
+	
+	public static function createStarredFeed()
+	{
+		$feed = new Stream();
+		$feed->setIconType(Stream::ICON_STAR);
+		$feed->setId(Client::STATE_STAR);
+		$feed->setTitle('Starred items');
+		$feed->setIsMultipleSource(true);
+		
+		return $feed;
 	}
 }
