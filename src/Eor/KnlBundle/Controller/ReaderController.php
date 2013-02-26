@@ -16,7 +16,6 @@ class ReaderController extends Controller
 	
 	public function categoryFeedListAction($id)
 	{
-		$id = urldecode($id);
 		$category = $this->get('greader_service')->getSubscriptions()->get($id);
 		if($category === null){
 			throw $this->createNotFoundException();
@@ -34,7 +33,7 @@ class ReaderController extends Controller
 		$greader = $this->get('greader_service');
 
 		$subscriptions = $greader->getSubscriptions();
-		$stream = $subscriptions->get(urldecode($id));
+		$stream = $subscriptions->get($id);
 		if($stream === null){
 			throw $this->createNotFoundException();
 		}
