@@ -23,7 +23,8 @@ class ReaderController extends Controller
 		}
 		
 		return $this->render('EorKnlBundle:Reader:categoryFeedList.html.twig', array(
-			'category' => $category
+			'category' => $category,
+			'up_url' => $this->generateUrl('homepage')
 		));
 	}
 	
@@ -46,8 +47,18 @@ class ReaderController extends Controller
 	{
 		$itemList = $this->getItemList($id, $continuation);
 		
+		$firstCategory = $itemList->getStream()->getCategories()->first();
+		if($firstCategory !== false){
+			$upUrl = $this->generateUrl('category_feed_list', array(
+				'id' => $firstCategory->getKey()
+			));
+		} else {
+			$upUrl = $this->generateUrl('homepage');
+		}
+		
 		return $this->render('EorKnlBundle:Reader:itemList.html.twig', array(
-			'list' => $itemList
+			'list' => $itemList,
+			'up_url' => $upUrl
 		));
 	}
 	
@@ -60,7 +71,11 @@ class ReaderController extends Controller
 		
 		return $this->render('EorKnlBundle:Reader:itemDetail.html.twig', array(
 			'list' => $itemList,
-			'item' => $itemList->getItems()->get($itemKey)
+			'item' => $itemList->getItems()->get($itemKey),
+			'up_url' => $this->generateUrl('item_list', array(
+				'id' => $id,
+				'continuation' => $continuation
+			))
 		));
 	}
 }
