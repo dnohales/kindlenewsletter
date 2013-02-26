@@ -50,10 +50,18 @@ class Factory
 			'href'
 		));
 		$item->setAuthor(self::getKey($data, 'author'));
-		$item->setContent(self::getKey(
-			self::getKey($data, 'content', array()),
-			'content'
-		));
+		
+		if(self::getKey($data, 'content') !== null){
+			$item->setContent(self::getKey(
+				self::getKey($data, 'content', array()),
+				'content'
+			));
+		} else {
+			$item->setContent(self::getKey(
+				self::getKey($data, 'summary', array()),
+				'content'
+			));
+		}
 		
 		$categories = self::getKey($data, 'categories', array());
 		array_walk($categories, function(&$e, $k){
