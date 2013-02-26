@@ -8,7 +8,7 @@
 		</li>
 	{% endfor %}
 	<li class="nextpage">
-		<a class="main-link" href="{{ path("item_list", {"id": list.stream.key|url_encode, "continuation": list.continuation}) }}">
+		<a class="main-link" href="{{ path("item_list", {"id": list.stream.key, "continuation": list.continuation}) }}">
 			<span class="title">Next page &gt;</span>
 		</a>
 	</li>

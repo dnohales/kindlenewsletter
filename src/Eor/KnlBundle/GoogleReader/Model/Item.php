@@ -48,6 +48,7 @@ class Item
 	{
 		$id = str_replace('tag:google.com,2005:reader/item/', '', $id);
 		$id = str_replace('/', '-', $id);
+		$id = urlencode($id);
 		return $id;
 	}
 	

@@ -31,9 +31,12 @@ class Stream
 	
 	private $feeds;
 	
+	private $categories;
+	
 	public function __construct()
 	{
 		$this->feeds = new ArrayCollection();
+		$this->categories = new ArrayCollection();
 	}
 	
 	public function getId()
@@ -51,6 +54,7 @@ class Stream
 		$id = str_replace('http://', '', $id);
 		$id = str_replace('/', '-', $id);
 		$id = trim($id, '-');
+		$id = urlencode($id);
 		return $id;
 	}
 	
@@ -127,11 +131,17 @@ class Stream
 	public function addFeed(Stream $feed)
 	{
 		$this->feeds->add($feed);
+		$feed->addCategory($this);
 	}
 	
-	public function removeFeed(Stream $feed)
+	public function getCategories()
 	{
-		$this->feeds->removeElement($feed);
+		return $this->categories;
+	}
+	
+	public function addCategory(Stream $category)
+	{
+		$this->categories->add($category);
 	}
 
 	public function isLeaf()
