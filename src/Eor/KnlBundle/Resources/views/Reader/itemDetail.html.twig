@@ -12,7 +12,15 @@
 {% block reader_content %}
 	<div class="item-detail">
 		<h1 class="title">{{ item.title }}</h1>
-		<p class="metainfo">{{ list.stream.title|trim(".") }}&nbsp;&nbsp;|&nbsp;&nbsp;By {{ item.author }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ item.published|date }}.</p>
+		<p class="metainfo">
+			{{ list.stream.title|trim(". ") }}
+			{% if item.author %}
+				&nbsp;&nbsp;|&nbsp;&nbsp; By {{ item.author }}
+			{% endif %}
+			{% if item.published %}
+				&nbsp;&nbsp;|&nbsp;&nbsp; {{ item.published|date }}.
+			{% endif %}
+		</p>
 		<div class="content">
 			{{ item.content|raw }}
 		</div>
