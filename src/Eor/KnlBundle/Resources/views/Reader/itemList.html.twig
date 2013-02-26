@@ -4,6 +4,11 @@
 	{{ list.stream.title|raw|truncate(25) }}
 {% endblock %}
 
+{% block top_menu_popmenu_items %}
+	<li><a href="{{ path("item_list", {"id": list.stream.key}) }}">Check for new items</a></li>
+	{{ parent() }}
+{% endblock %}
+
 {% block reader_content %}
 	{% include 'EorKnlBundle:Reader:_itemList.html.twig' with {'list':list} %}
 {% endblock %}
