@@ -14,6 +14,10 @@ item_detail:
     pattern: /read/{continuation}/{id}/{itemKey}
     defaults: { _controller: EorKnlBundle:Reader:itemDetail, continuation: 0 }
 
+force_refresh:
+    pattern: /ajax/force_refresh
+    defaults: { _controller: EorKnlBundle:Reader:forceRefresh }
+    
 login:
     pattern:  /login
     defaults: { _controller: EorKnlBundle:Login:login }

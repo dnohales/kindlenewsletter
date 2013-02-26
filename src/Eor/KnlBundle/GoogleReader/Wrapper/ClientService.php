@@ -14,6 +14,7 @@ use Eor\KnlBundle\GoogleReader\Model\Stream;
 class ClientService
 {
 	const KEY_INDEX = 'greader.index';
+	const KEY_FORCE_REFRESH = 'greader.force_refresh';
 	
 	private $client;
 	
@@ -22,13 +23,34 @@ class ClientService
 		$this->client = $client;
 	}
 	
-	public function getSubscriptions($refresh = false)
+	private function getToken()
 	{
-		$token = $this->client->getSecurityContext()->getToken();
+		return $this->client->getSecurityContext()->getToken();
+	}
+	
+	public function getSubscriptions($forceRefresh = false)
+	{
+		$token = $this->getToken();
+		$needRefresh = false;
 		
-		if(!$token->hasAttribute(self::KEY_INDEX) || !$token->getAttribute(self::KEY_INDEX) instanceof Index || $refresh){
+		if(!$token->hasAttribute(self::KEY_INDEX) ||
+		   !$token->getAttribute(self::KEY_INDEX) instanceof Index ||
+		   $forceRefresh || $this->isForceRefreshEnabled()){
+			$needRefresh = true;
+		} else {
+			$updated = $token->getAttribute(self::KEY_INDEX)->getUpdated();
+			if($updated !== null){
+				$now = new \DateTime('now');
+				$needRefresh = $now->getTimestamp() - $updated->getTimestamp() > 3600;
+			} else {
+				$needRefresh = true;
+			}
+		}
+		
+		if($needRefresh){
 			$subscriptions = $this->client->getSubscriptions();
 			$token->setAttribute(self::KEY_INDEX, $subscriptions);
+			$this->disableForceRefresh();
 			return $subscriptions;
 		} else {
 			return $token->getAttribute(self::KEY_INDEX);
@@ -38,6 +60,21 @@ class ClientService
 	public function getItemList(Stream $stream, $sort, $number, $excludeTargets, $continuation, $startTime = null)
 	{
 		return $this->client->getItemList($stream, $sort, $number, $excludeTargets, $continuation, $startTime);
+	}
+	
+	public function enableForceRefresh()
+	{
+		$this->getToken()->setAttribute(self::KEY_FORCE_REFRESH, true);
+	}
+	
+	public function disableForceRefresh()
+	{
+		$this->getToken()->setAttribute(self::KEY_FORCE_REFRESH, false);
+	}
+	
+	public function isForceRefreshEnabled()
+	{
+		return $this->getToken()->hasAttribute(self::KEY_FORCE_REFRESH) && $this->getToken()->getAttribute(self::KEY_FORCE_REFRESH) == true;
 	}
 
 }

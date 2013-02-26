@@ -2,6 +2,8 @@
 
 namespace Eor\KnlBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class ReaderController extends Controller
 {
     public function indexAction()
@@ -76,5 +78,14 @@ class ReaderController extends Controller
 				'continuation' => $continuation
 			))
 		));
+	}
+	
+	public function forceRefreshAction()
+	{
+		/* @var $greader \Eor\KnlBundle\GoogleReader\Wrapper\ClientService */
+		$greader = $this->get('greader_service');
+		$greader->enableForceRefresh();
+		
+		return new Response();
 	}
 }

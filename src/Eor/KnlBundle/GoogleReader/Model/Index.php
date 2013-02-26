@@ -12,6 +12,7 @@ class Index
 {
 	private $all;
 	private $categorized;
+	private $updated;
 	
 	public function __construct()
 	{
@@ -71,6 +72,16 @@ class Index
 	public function getCategorized()
 	{
 		return $this->categorized;
+	}
+	
+	public function getUpdated()
+	{
+		return $this->updated;
+	}
+
+	public function setUpdated($updated)
+	{
+		$this->updated = $updated;
 	}
 
 }

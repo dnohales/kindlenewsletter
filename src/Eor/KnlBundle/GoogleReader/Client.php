@@ -120,6 +120,8 @@ class Client
 		$subscriptionsData = $this->readerRequest('subscription/list');
 		$countData = $this->readerRequest('unread-count');
 		
+		$subscriptions->setUpdated(new \DateTime('now'));
+		
 		foreach($subscriptionsData['subscriptions'] as $s){
 			$subscriptions->addFeedByData($s);
 		}

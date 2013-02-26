@@ -4,6 +4,11 @@
 	{{ category.title|raw|truncate(25) }}
 {% endblock %}
 
+{% block top_menu_popmenu_items %}
+	<li><a href="#" onclick="return Reader.forceRefresh();">Reload feeds</a></li>
+	{{ parent() }}
+{% endblock %}
+
 {% block reader_content %}
 	{% include 'EorKnlBundle:Reader:_streamList.html.twig' with {'streams':category.feeds} %}
 {% endblock %}

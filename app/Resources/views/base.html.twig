@@ -28,6 +28,9 @@
 		{% block javascripts %}
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 			<script src="{{ asset('bundles/eorknl/js/main.js') }}"></script>
+			<script>
+				Reader.routes.force_refresh = "{{ path('force_refresh') }}";
+			</script>
 		{% endblock %}
 	</body>
 </html>
