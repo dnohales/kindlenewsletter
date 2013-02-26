@@ -38,8 +38,8 @@ class ReaderController extends Controller
 			throw $this->createNotFoundException();
 		}
 
-		$continuation = $continuation == 0? null:$continuation;
-		return $greader->getItemList($stream, \Eor\KnlBundle\GoogleReader\Client::SORT_NEW, 20, null, $continuation);
+		$continuation = $continuation === '0'? null:$continuation;
+		return $greader->getItemList($stream, \Eor\KnlBundle\GoogleReader\Client::SORT_NEW, 8, null, $continuation);
 	}
 	
 	public function itemListAction($continuation, $id)
