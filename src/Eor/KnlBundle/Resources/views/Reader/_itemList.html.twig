@@ -7,10 +7,12 @@
 			</a>
 		</li>
 	{% endfor %}
-	<li class="nextpage">
-		<a class="main-link" href="{{ path("item_list", {"id": list.stream.key, "continuation": list.continuation}) }}">
-			<span class="title">Next page &gt;</span>
-		</a>
-	</li>
+	{% if list.continuation %}
+		<li class="nextpage">
+			<a class="main-link" href="{{ path("item_list", {"id": list.stream.key, "continuation": list.continuation}) }}">
+				<span class="title">Next page &gt;</span>
+			</a>
+		</li>
+	{% endif %}
 </ul>
 {% endspaceless %}
