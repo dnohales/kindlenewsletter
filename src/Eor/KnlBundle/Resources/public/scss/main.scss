@@ -185,7 +185,6 @@
 .item-list {
 	span.title {
 		width: 90%;
-		color: black;
 	}
 	span.origin {
 		color: #777;
@@ -216,5 +215,16 @@
 		pre {
 			white-space: pre-wrap;
 		}
+	}
+}
+
+.item-detail-commands {
+	border-left: 1px solid gray;
+	display: inline;
+	margin-left: 20px;
+	padding-left: 15px;
+	a img {
+		padding: 0 10px;
+		vertical-align: middle;
 	}
 }

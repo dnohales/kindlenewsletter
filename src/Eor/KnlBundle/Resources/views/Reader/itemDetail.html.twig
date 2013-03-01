@@ -1,7 +1,11 @@
 {% extends "EorKnlBundle:Reader:base.html.twig" %}
 
 {% block top_menu_left %}
-	<a href=""></a>
+	<div class="item-detail-commands">
+		<a href="{{ item.link }}"><img src="{{ asset('bundles/eorknl/img/icon/link.png') }}" /></a>
+		<a href="#" onclick="alert('This button is not implemented yet!'); return false;"><img src="{{ asset('bundles/eorknl/img/icon/unstar.png') }}" /></a>
+		<a href="#" onclick="alert('This button is not implemented yet!'); return false;"><img src="{{ asset('bundles/eorknl/img/icon/eye_open.png') }}" /></a>
+	</div>
 {% endblock %}
 
 {% block top_menu_popmenu_items %}
