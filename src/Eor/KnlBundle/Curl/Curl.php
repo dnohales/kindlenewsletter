@@ -87,7 +87,8 @@ class Curl
 			CURLOPT_HEADER => true,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_FAILONERROR => false,
-			CURLOPT_SSL_VERIFYPEER => false
+			CURLOPT_SSL_VERIFYPEER => false,
+			CURLOPT_FOLLOWLOCATION => true
 		));
 	}
 	
@@ -116,8 +117,7 @@ class Curl
 	
 	public function executeJson($associative = true)
 	{
-		$decoder = new JsonDecode($associative);
-		return $decoder->decode($this->execute(), null);
+		return json_decode($this->execute(), $associative);
 	}
 	
 	
