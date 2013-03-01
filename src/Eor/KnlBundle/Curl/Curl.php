@@ -19,6 +19,11 @@ class Curl
 	 * @var array
 	 */
 	private $options;
+	
+	/**
+	 * The response header
+	 */
+	private $responseHeader;
 
 	/**
 	 * Get the cURL version information
@@ -79,9 +84,9 @@ class Curl
 		$this->resource = curl_init();
 		$this->setOptions(array(
 			CURLOPT_URL => null,
-			CURLOPT_HEADER => false,
+			CURLOPT_HEADER => true,
 			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_FAILONERROR => true,
+			CURLOPT_FAILONERROR => false,
 			CURLOPT_SSL_VERIFYPEER => false
 		));
 	}
@@ -94,13 +99,19 @@ class Curl
 	public function execute()
 	{
 		curl_setopt_array($this->resource, $this->getOptions());
-		$content = curl_exec($this->resource);
+		$response = curl_exec($this->resource);
 		
-		if($content === false){
+		$headerSize = $this->getInfo(CURLINFO_HEADER_SIZE);
+		$header = substr($response, 0, $headerSize);
+		$body = substr($response, $headerSize);
+		
+		$this->responseHeader = $header;
+		
+		if($this->getHttpCode() >= 400){
 			throw new CurlException("Error on cURL request: #{$this->getErrno()}: {$this->getError()}. HTTP code: {$this->getHttpCode()}. URL: \"{$this->getUrl()}\"");
 		}
 		
-		return $content;
+		return $body;
 	}
 	
 	public function executeJson($associative = true)
@@ -186,10 +197,15 @@ class Curl
 		$headers[] = $header;
 		$this->setHeaders($headers);
 	}
-
-	public function getInfo()
+	
+	public function getResponseHeader()
 	{
-		return curl_getinfo($this->resource);
+		return $this->responseHeader;
+	}
+
+	public function getInfo($opt = 0)
+	{
+		return curl_getinfo($this->resource, $opt);
 	}
 	
 	public function hasError()
