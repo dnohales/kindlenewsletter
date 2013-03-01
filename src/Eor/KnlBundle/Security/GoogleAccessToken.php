@@ -15,8 +15,9 @@ class GoogleAccessToken extends AbstractToken
 	
 	public function __construct(TokenInformation $tokenInformation)
 	{
-		parent::__construct(array());
+		parent::__construct(array('ROLE_USER'));
 		$this->tokenInformation = $tokenInformation;
+		$this->setAuthenticated(true);
 	}
 	
 	public function getCredentials()
