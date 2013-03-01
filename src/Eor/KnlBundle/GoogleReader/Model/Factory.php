@@ -47,10 +47,19 @@ class Factory
 		$item->setTitle(self::getKey($data, 'title'));
 		$item->setPublished(new \DateTime('@'.self::getKey($data, 'published')));
 		$item->setUpdated(new \DateTime('@'.self::getKey($data, 'updated')));
-		$item->setLink(self::getKey(
-			self::getKey($data, 'canonical', array()),
-			'href'
-		));
+		
+		$alternate = self::getKey($data, 'alternate');
+		if($alternate !== null){
+			$item->setLink(self::getKey(
+				self::getKey($alternate, 0, array()),
+				'href'
+			));
+		} else {
+			$item->setLink(self::getKey(
+				self::getKey($data, 'canonical', array()),
+				'href'
+			));
+		}
 		$item->setAuthor(self::getKey($data, 'author'));
 		
 		if(self::getKey($data, 'content') !== null){
