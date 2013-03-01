@@ -24,5 +24,6 @@ class EorKnlExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('greader.yml');
+        $loader->load('readability.yml');
     }
 }

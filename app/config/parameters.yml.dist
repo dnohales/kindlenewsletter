@@ -19,3 +19,5 @@ parameters:
     greader_config.client_secret: ""
     greader_config.redirect_uri: ""
     greader_config.javascript_origin: ""
+
+	readability_token: ""

@@ -3,6 +3,9 @@
 namespace Eor\KnlBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Eor\KnlBundle\GoogleReader\Client;
+use Eor\KnlBundle\Readability\Client as ReadabilityClient;
+use Eor\KnlBundle\Readability\ReadabilityApiException;
 
 class ReaderController extends Controller
 {
@@ -66,13 +69,24 @@ class ReaderController extends Controller
 	public function itemDetailAction($continuation, $id, $itemKey)
 	{
 		$itemList = $this->getItemList($id, $continuation);
-		if($itemList->getItems()->get($itemKey) === null){
+		$item = $itemList->getItems()->get($itemKey);
+		if($item === null){
 			throw $this->createNotFoundException();
+		}
+		
+		try {
+			/* @var $readabilityClient ReadabilityClient */
+			$readabilityClient = $this->get('readability_client');
+			if($readabilityClient->isAvailable() && $item->isSummarized()){
+				$item->setContent($readabilityClient->parse($item->getLink())->getContent());
+			}
+		} catch (ReadabilityApiException $e) {
+			// Use the Google Reader content if Readability fails
 		}
 		
 		return $this->render('EorKnlBundle:Reader:itemDetail.html.twig', array(
 			'list' => $itemList,
-			'item' => $itemList->getItems()->get($itemKey),
+			'item' => $item,
 			'up_url' => $this->generateUrl('item_list', array(
 				'id' => $id,
 				'continuation' => $continuation

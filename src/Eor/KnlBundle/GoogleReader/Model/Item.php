@@ -116,6 +116,11 @@ class Item
 	{
 		$this->content = $content;
 	}
+	
+	public function isSummarized()
+	{
+		return strlen($this->content) < 512;
+	}
 
 	public function getNormalizedContent()
 	{

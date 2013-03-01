@@ -1,0 +1,8 @@
+parameters:
+    readability_client.class: Eor\KnlBundle\Readability\Client
+
+services:
+    readability_client:
+        class: %readability_client.class%
+        arguments: [%readability_token%, @logger]
+    
