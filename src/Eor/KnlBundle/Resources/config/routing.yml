@@ -21,7 +21,11 @@ force_refresh:
 set_state:
     pattern: /ajax/set_state
     defaults: { _controller: EorKnlBundle:Reader:setState }
-    
+
+page_contribute:
+    pattern: /contribute
+    defaults: { _controller: EorKnlBundle:Page:contribute }
+
 login:
     pattern:  /login
     defaults: { _controller: EorKnlBundle:Login:login }

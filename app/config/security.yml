@@ -14,10 +14,10 @@ security:
             pattern:  ^/(_(profiler|wdt|test)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/login
+        public:
+            pattern:  ^/(login|contribute)
             security: false
-
+            
         secured_area:
             pattern:    ^/
             form_login:

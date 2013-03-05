@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+<div class="margined">
+	<h1>Contribute to KindleNewsletter.com!</h1>
+
+	<p class="justified">KindleNewsletter.com is a open source web application developed by me, Damián
+	Nohales. I created this project for own use but I believe that can be useful
+	to anybody. This application is Ad free so any kind of contribution will be
+	appreciated. Here's how you can help:</p>
+
+	<h2>Report bugs and share ideas</h2>
+	<p>If you find and error while using KindleNewsletter.com or you think about
+	an improvement, let me know by writing a thread on the
+	<a href="https://github.com/eagleoneraptor/kindlenewsletter/issues">Issue tracker</a>.</p>
+
+	<h2>Development</h2>
+	<p class="justified">If you are connoisseur of PHP 5, Symfony 2, Sass, JavaScript or anything like
+	that, you may want to contribute with new features and fixes. The
+	project is hosted on <a href="https://github.com/eagleoneraptor/kindlenewsletter">GitHub</a>,
+	just fork it and send me pull requests!</p>
+
+	<h2>Donate</h2>
+	<p class="justified">You can give me some money to help me with the hosting cost and to buy beer
+	and PlayStation 3 games :D. Any amount is appreciated.</p>
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="cmd" value="_s-xclick" />
+		<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHNwYJKoZIhvcNAQcEoIIHKDCCByQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBX4e87qYmKZSx5Ze9Vky6Vcu0miDn4X+midAk70QNpJDpOTLKZVzrxVgaCH9O3eqJW/TW7LCrx0CLAQQ9qJRwWzC5E8PLSWWu32jgkIuVsZiXW+xqceDPmPapVafottn8vcD1I1ROCbtbh5f5p94zTo2X0cnwWRG2k088ICgWovTELMAkGBSsOAwIaBQAwgbQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIaMyBd6bXbUWAgZAl/BMulmjmcgtNtEXXq1OGOTiDKQzCOFlkvfhi4X9OaW8udSYcVKTROu1XU28dbPmslwAYxQ9ABr+hRS/7461mAgq3MDuumY/L+15AuKvetV9uZL3RN0MKsJT+Z4k4eT7045tow1H/14WJ1X9rzPnHJCIblSqkKNArUjkQkeBkAX2vfgqAsU9KWgPoXzH7+cagggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xMzAzMDUyMDE2MThaMCMGCSqGSIb3DQEJBDEWBBTHnZrqge7OIEVymupFCr46Uo0LHDANBgkqhkiG9w0BAQEFAASBgGWRYB65v44Mx4eLfuCk0Zk+WeyxybqXTCGZsSdwRQbmVGI1QTuFcEu/4kUR1FQKNOtjHLSkRZc9ktLsuPga0+9T5986ovR/R/NC3Wd0CI+pq668kRCgFoQ6oXdJx/BpTf4t0qhF6UFj21uZlxNa0kmdgcjA+fIb6/AhQ09hppZ+-----END PKCS7-----
+		" />
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	</form>
+	<p>BitCoin address: <strong>1BsUYW9czeV8MwsEqnu5VDS48Gt8jMh7ai</strong></p>
+</div>
+{% endblock %}
