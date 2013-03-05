@@ -18,6 +18,10 @@ force_refresh:
     pattern: /ajax/force_refresh
     defaults: { _controller: EorKnlBundle:Reader:forceRefresh }
     
+set_state:
+    pattern: /ajax/set_state
+    defaults: { _controller: EorKnlBundle:Reader:setState }
+    
 login:
     pattern:  /login
     defaults: { _controller: EorKnlBundle:Login:login }

@@ -3,8 +3,12 @@
 {% block top_menu_left %}
 	<div class="item-detail-commands">
 		<a href="{{ item.link }}"><img src="{{ asset('bundles/eorknl/img/icon/link.png') }}" /></a>
-		<a href="#" onclick="alert('This button is not implemented yet!'); return false;"><img src="{{ asset('bundles/eorknl/img/icon/unstar.png') }}" /></a>
-		<a href="#" onclick="alert('This button is not implemented yet!'); return false;"><img src="{{ asset('bundles/eorknl/img/icon/eye_open.png') }}" /></a>
+		<a href="#" id="item_detail_star" data-isset="{{ item.isStarred? '1':'0' }}">
+			<img src="{{ asset('bundles/eorknl/img/icon/'~(item.isStarred? 'star':'unstar')~'.png') }}" />
+		</a>
+		<a href="#" id="item_detail_read"  data-isset="{{ item.isReaded? '1':'0' }}">
+			<img src="{{ asset('bundles/eorknl/img/icon/'~(item.isReaded? 'eye_open':'eye_close')~'.png') }}" />
+		</a>
 	</div>
 {% endblock %}
 
@@ -29,4 +33,14 @@
 			{{ item.content|raw }}
 		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		Reader.currentItem = {
+			id: "{{ item.id }}",
+			originId: "{{ item.originId }}"
+		}
+	</script>
 {% endblock %}

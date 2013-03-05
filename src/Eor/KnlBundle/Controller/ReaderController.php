@@ -77,6 +77,7 @@ class ReaderController extends Controller
 		/* @var $greader Client */
 		$greader = $this->get('greader_client');
 		$greader->setState($item->getId(), $item->getOriginId(), Client::STATE_READ, true);
+		$item->setIsReaded(true);
 		
 		try {
 			/* @var $readabilityClient ReadabilityClient */
@@ -105,5 +106,24 @@ class ReaderController extends Controller
 		$greader->enableForceRefresh();
 		
 		return new Response();
+	}
+	
+	public function setStateAction()
+	{
+		$r = $this->getRequest();
+		$itemId = $r->request->get('item_id');
+		$originId = $r->request->get('origin_id');
+		$state = $r->request->get('state');
+		$set = $r->request->get('set');
+		
+		if(!isset($itemId, $originId, $state, $set) || !$r->isXmlHttpRequest()){
+			return new Response('Bad request', 400);
+		}
+		
+		/* @var $greader Client */
+		$greader = $this->get('greader_client');
+		$greader->setState($itemId, $originId, $state, $set == 1? true:false);
+		
+		return new Response('OK');
 	}
 }

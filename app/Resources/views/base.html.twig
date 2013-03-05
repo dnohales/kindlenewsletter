@@ -27,9 +27,20 @@
 		</div>
 		{% block javascripts %}
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-			<script src="{{ asset('bundles/eorknl/js/main.js') }}"></script>
+			{% javascripts '@EorKnlBundle/Resources/public/js/*.js' %}
+				<script src="{{ asset_url }}"></script>
+			{% endjavascripts %}
 			<script>
-				Reader.routes.force_refresh = "{{ path('force_refresh') }}";
+				Reader.routes = {
+					force_refresh: "{{ path('force_refresh') }}",
+					set_state: "{{ path('set_state') }}",
+					asset_prefix: "{{ asset('') }}"
+				}
+				
+				Reader.states = {
+					read: "{{ constant('Eor\\KnlBundle\\GoogleReader\\Client::STATE_READ') }}",
+					star: "{{ constant('Eor\\KnlBundle\\GoogleReader\\Client::STATE_STAR') }}"
+				}
 			</script>
 		{% endblock %}
 	</body>
