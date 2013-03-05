@@ -6,6 +6,7 @@ use Eor\KnlBundle\GoogleReader\AccessDeniedException;
 use Eor\KnlBundle\Security\GoogleAccessToken;
 use Eor\KnlBundle\Entity\User;
 use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Description of LoginController
@@ -16,6 +17,7 @@ class LoginController extends Controller {
 
 	public function loginAction()
 	{
+		$this->checkLogin();
 		return $this->render('EorKnlBundle:Login:login.html.twig', array(
 			'loginUrl' => $this->get('greader_client')->getAuthenticator()->getLoginUrl()
 		));
@@ -23,6 +25,8 @@ class LoginController extends Controller {
 	
 	public function googleCheckAction()
 	{
+		$this->checkLogin();
+		
 		/* @var $authenticator \Eor\KnlBundle\GoogleReader\Authenticator */
 		$authenticator = $this->get('greader_client')->getAuthenticator();
 		
@@ -73,6 +77,15 @@ class LoginController extends Controller {
 			$this->get('session')->setFlash('login.error', 'An unexpected error occurred during logon.');
 			$this->get('logger')->err('Login error: '.$e->getMessage());
 			return $this->redirect($this->generateUrl('login'));
+		}
+	}
+	
+	public function checkLogin()
+	{
+		if($this->getRequest()->getSession()->has('_security_secured_area')){
+			throw new HttpException(302, null, null, array(
+				'Location' => $this->generateUrl('homepage')
+			));
 		}
 	}
 
