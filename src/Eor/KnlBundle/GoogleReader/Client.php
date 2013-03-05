@@ -29,6 +29,7 @@ class Client
 	private $configuration;
 	private $securityContext;
 	private $logger;
+	private $customTokenInformation;
 	
 	public function __construct(Configuration $configuration, SecurityContextInterface $securityContext, Logger $logger)
 	{
@@ -65,8 +66,16 @@ class Client
 		return $this->securityContext;
 	}
 	
+	/**
+	 * 
+	 * @return TokenInformation
+	 */
 	public function getTokenInformation()
 	{
+		if($this->customTokenInformation !== null){
+			return $this->customTokenInformation;
+		}
+		
 		/* @var $token Eor\KnlBundle\Security\GoogleAccessToken */
 		$token = $this->getSecurityContext()->getToken();
 		if($token !== null){
@@ -76,26 +85,54 @@ class Client
 		}
 	}
 	
-	public function request($url, $method = 'GET', array $getFields = array(), array $postFields = array(), TokenInformation $customTokenInformation = null)
+	public function setTokenInformation(TokenInformation $tokenInformation)
 	{
-		/* @var $tokenInformation TokenInformation */
-		$tokenInformation = $customTokenInformation ?: $this->getTokenInformation();
+		$this->customTokenInformation = $tokenInformation;
+	}
+	
+	/**
+	 * Get the Google Reader state name applying the Google Reader user ID to the
+	 * state string
+	 * @param string $stateConstant The State template string, see the STATE_*
+	 * constants.
+	 * @return string A fully qualified state just like user/<user_id>/state/com.google/read
+	 */
+	public function getUserState($stateConstant)
+	{
+		$replacement = '/'.($this->getTokenInformation()->getGoogleReaderUserId() ?: '-').'/';
+		return str_replace('/-/', $replacement, $stateConstant);
+	}
+	
+	public function request($url, $method = 'GET', array $getFields = array(), array $postFields = array(), $output = 'json')
+	{
+		$tokenInformation = $this->getTokenInformation();
 		if($tokenInformation === null){
-			throw new GoogleApiException('Google client needs a SecurityContext with populated TokenInformation to make a request or you can populate the method last parameter.');
+			throw new GoogleApiException('There is no TokenInformation available');
+		}
+		
+		if($tokenInformation->isAccessTokenExpired()){
+			throw new GoogleApiTokenException('The access token is expired');
 		}
 		
 		$curl = new Curl();
 		
-		$getFields['output'] = 'json';
+		if($output !== null){
+			$getFields['output'] = $output;
+		}
 		$url .= '?'.http_build_query($getFields);
 		$curl->setUrl($url);
 		
+		$curl->setMethod($method);
 		$curl->setPostFields($postFields);
 		$curl->addHeader("Authorization: {$tokenInformation->getTokenType()} {$tokenInformation->getAccessToken()}");
 		
 		try {
-			$response = $curl->executeJson();
-			$this->logger->debug("GoogleClient API success. URL: {$curl->getUrl()}. Response:\n".print_r($response, true), array('greader_client.success'));
+			$response = $curl->execute();
+			$this->logger->debug("GoogleClient API success. URL: {$curl->getUrl()}. Response:\n".$response, array('greader_client.success'));
+			if($output === 'json'){
+				$response = json_decode($response, true);
+			}
+			$tokenInformation->setGoogleReaderUserId($this->extractGoogleReaderUserId($curl));
 		} catch(CurlException $e) {
 			$this->logger->err("GoogleClient API failure: {$e->getMessage()}", array('greader_client.failure'));
 			if($curl->getHttpCode() == 401){
@@ -107,12 +144,31 @@ class Client
 		
 		return $response;
 	}
+	
+	private function extractGoogleReaderUserId(Curl $curl)
+	{
+		$matches = null;
+		preg_match('/X-Reader-User: (\d+)\r\n/i', $curl->getResponseHeader(), $matches);
+		return isset($matches[1])? $matches[1]:null;
+	}
 
-	public function readerRequest($path, $method = 'GET', array $getFields = array(), array $postFields = array(), TokenInformation $customTokenInformation = null)
+	public function readerRequest($path, $method = 'GET', array $getFields = array(), array $postFields = array(), $output = 'json')
 	{
 		$getFields['ck'] = time();
 		$getFields['client'] = 'scroll';
-		return $this->request(self::READER_BASE_PATH.$path, $method, $getFields, $postFields, $customTokenInformation);
+		return $this->request(self::READER_BASE_PATH.$path, $method, $getFields, $postFields, $output);
+	}
+	
+	public function getActionToken()
+	{
+		$tokenInformation = $this->getTokenInformation();
+		
+		if($tokenInformation->getActionToken() === null || $tokenInformation->isActionTokenExpired()){
+			$actionToken = $this->readerRequest('token', 'GET', array(), array(), null);
+			$tokenInformation->setActionToken($actionToken);
+		}
+		
+		return $tokenInformation->getActionToken();
 	}
 	
 	public function getSubscriptions()
@@ -123,18 +179,14 @@ class Client
 		
 		$subscriptions->setUpdated(new \DateTime('now'));
 		
-		$subscriptions->addFeed(Model\Factory::createGlobalUnreadFeed());
-		$subscriptions->addFeed(Model\Factory::createStarredFeed());
+		$subscriptions->addFeed(Model\Factory::createGlobalUnreadFeed($this));
+		$subscriptions->addFeed(Model\Factory::createStarredFeed($this));
 		
 		foreach($subscriptionsData['subscriptions'] as $s){
 			$subscriptions->addFeedByData($s);
 		}
 		
 		foreach($countData['unreadcounts'] as $c){
-			if(preg_match('$'.str_replace('/-/', '/\d+/', self::STATE_READING_LIST).'$', $c['id']) > 0){
-				$c['id'] = self::STATE_READING_LIST;
-			}
-			
 			$cid = Model\Stream::idToKey($c['id']);
 			if( $subscriptions->has($cid) ){
 				$subscriptions->get($cid)->setCount(isset($c['count'])? $c['count']:null);
@@ -165,6 +217,24 @@ class Client
 		
 		$itemsData = $this->readerRequest('stream/contents/'.$id, 'GET', $getFields);
 		return Model\Factory::createItemList($stream, $itemsData, $continuation);
+	}
+	
+	public function setState($itemId, $originId, $state, $set = true)
+	{
+		$postFields = array(
+			'i' => $itemId,
+			's' => $originId,
+			'async' => 'true',
+			'T' => $this->getActionToken()
+		);
+		$state = $this->getUserState($state);
+		if($set){
+			$postFields['a'] = $state;
+		} else {
+			$postFields['r'] = $state;
+		}
+		
+		$this->readerRequest('edit-tag', 'POST', array(), $postFields);
 	}
 
 }

@@ -74,6 +74,10 @@ class ReaderController extends Controller
 			throw $this->createNotFoundException();
 		}
 		
+		/* @var $greader Client */
+		$greader = $this->get('greader_client');
+		$greader->setState($item->getId(), $item->getOriginId(), Client::STATE_READ, true);
+		
 		try {
 			/* @var $readabilityClient ReadabilityClient */
 			$readabilityClient = $this->get('readability_client');

@@ -34,7 +34,8 @@ class LoginController extends Controller {
 			$tokenInformation = $authenticator->getTokenInformation($this->getRequest());
 			
 			//Get user profile
-			$profileData = $googleClient->request('https://www.googleapis.com/oauth2/v2/userinfo', 'GET', array(), array(), $tokenInformation);
+			$googleClient->setTokenInformation($tokenInformation);
+			$profileData = $googleClient->request('https://www.googleapis.com/oauth2/v2/userinfo', 'GET', array(), array());
 			
 			if(!is_array($profileData) || !isset($profileData['id'])){
 				throw new \Exception('Google profile data has not a user ID.');

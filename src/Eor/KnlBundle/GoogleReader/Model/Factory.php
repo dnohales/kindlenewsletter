@@ -103,22 +103,22 @@ class Factory
 		return $list;
 	}
 	
-	public static function createGlobalUnreadFeed()
+	public static function createGlobalUnreadFeed(Client $client)
 	{
 		$feed = new Stream();
 		$feed->setIconType(Stream::ICON_NONE);
-		$feed->setId(Client::STATE_READING_LIST);
+		$feed->setId($client->getUserState(Client::STATE_READING_LIST));
 		$feed->setTitle('All items');
 		$feed->setIsMultipleSource(true);
 		
 		return $feed;
 	}
 	
-	public static function createStarredFeed()
+	public static function createStarredFeed(Client $client)
 	{
 		$feed = new Stream();
 		$feed->setIconType(Stream::ICON_STAR);
-		$feed->setId(Client::STATE_STAR);
+		$feed->setId($client->getUserState(Client::STATE_STAR));
 		$feed->setTitle('Starred items');
 		$feed->setIsMultipleSource(true);
 		
