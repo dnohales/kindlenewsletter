@@ -12,7 +12,3 @@ _configurator:
 
 _main:
     resource: routing.yml
-
-_test:
-    resource: "@EorTestBundle/Resources/config/routing.yml"
-    prefix:   /_test
