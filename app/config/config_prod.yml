@@ -7,6 +7,11 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+assetic:
+    filters:
+        yui_js: ~
+        yui_css: ~
+
 monolog:
     handlers:
         main:

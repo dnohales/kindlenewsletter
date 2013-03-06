@@ -20,4 +20,7 @@ parameters:
     greader_config.redirect_uri: ""
     greader_config.javascript_origin: ""
 
-	readability_token: ""
+    readability_token: ""
+
+    assetic.filter.yui_js.jar: "YUI Compressor jar path"
+    assetic.filter.yui_css.jar: "YUI Compressor jar path"
