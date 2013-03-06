@@ -1,8 +1,14 @@
 <?php
-namespace Eor\KnlBundle\Curl;
+/*
+ * This file is part of the KindleNewsletter.com package.
+ * 
+ * (c) Damián Nohales <damiannohales@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE 
+ * file that was distributed with this source code. 
+ */
 
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\OptionsResolver\Options;
+namespace Eor\KnlBundle\Curl;
 
 class Curl
 {

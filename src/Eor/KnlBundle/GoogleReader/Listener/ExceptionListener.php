@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of the KindleNewsletter.com package.
+ * 
+ * (c) Damián Nohales <damiannohales@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE 
+ * file that was distributed with this source code. 
+ */
+
 namespace Eor\KnlBundle\GoogleReader\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -10,7 +19,7 @@ use Eor\KnlBundle\GoogleReader\Client;
  * This class is redirect to Google OAuth2 login page when the token
  * expiration occurs.
  *
- * @author damiannohales
+ * @author Damián Nohales <damiannohales@gmail.com>
  */
 class ExceptionListener
 {
