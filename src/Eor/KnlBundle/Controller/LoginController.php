@@ -80,8 +80,6 @@ class LoginController extends Controller {
 				$user = new User();
 			}
 			$user->setProfileData($profileData);
-			$this->getEntityManager()->persist($user);
-			$this->getEntityManager()->flush();
 			
 			//Create the Symfony2 token to create the session
 			$token = new GoogleAccessToken($tokenInformation);
@@ -95,8 +93,12 @@ class LoginController extends Controller {
 				if(count($urlErrors) == 0){
 					$redirectUrl = $state;
 				}
+			} else {
+				$user->setSignInTime(new \DateTime());
 			}
 			
+			$this->getEntityManager()->persist($user);
+			$this->getEntityManager()->flush();
 			return $this->redirect($redirectUrl);
 		} catch(AccessDeniedException $e){
 			$this->get('session')->setFlash('login.error', 'You must grant access to your Google Account so that the application can run.');

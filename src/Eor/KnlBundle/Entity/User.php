@@ -75,7 +75,22 @@ class User implements UserInterface
 	 * @ORM\Column(name="locale", type="string", nullable=true)
 	 */
 	private $locale;
-
+	
+	/**
+	 * @ORM\Column(name="signup_time", type="datetime", nullable=true)
+	 */
+	private $signUpTime;
+	
+	/**
+	 * @ORM\Column(name="signin_time", type="datetime", nullable=true)
+	 */
+	private $signInTime;
+	
+	public function __construct()
+	{
+		$this->signUpTime = new \DateTime();
+	}
+	
 	public function setProfileData(array $profileData)
 	{
 		$this->id = $this->getKey($profileData, 'id');
@@ -174,6 +189,21 @@ class User implements UserInterface
 	public function getUsername()
 	{
 		return $this->getId();
+	}
+	
+	public function getSignUpTime()
+	{
+		return $this->signUpTime;
+	}
+
+	public function getSignInTime()
+	{
+		return $this->signInTime;
+	}
+
+	public function setSignInTime(\DateTime $signInTime)
+	{
+		$this->signInTime = $signInTime;
 	}
 
 }
