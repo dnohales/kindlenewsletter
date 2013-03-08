@@ -11,6 +11,7 @@
 namespace Eor\KnlBundle\GoogleReader;
 
 use Eor\KnlBundle\GoogleReader\Client;
+use Eor\KnlBundle\GoogleReader\Model\Item;
 use Eor\KnlBundle\GoogleReader\Model\Index;
 use Eor\KnlBundle\GoogleReader\Model\Stream;
 
@@ -69,6 +70,24 @@ class ClientService
 	public function getItemList(Stream $stream, $sort, $number, $excludeTargets, $continuation, $startTime = null)
 	{
 		return $this->client->getItemList($stream, $sort, $number, $excludeTargets, $continuation, $startTime);
+	}
+	
+	public function markItemAsReaded(Item $item)
+	{
+		if(!$item->isReaded()){
+			$this->setStateByItem($item, Client::STATE_READ, true);
+			$item->setIsReaded(true);
+		}
+	}
+	
+	public function setState($itemId, $originId, $state, $set = true)
+	{
+		$this->client->setState($itemId, $originId, $state, $set);
+	}
+	
+	public function setStateByItem(Item $item, $state, $set = true)
+	{
+		$this->client->setState($item->getId(), $item->getOriginId(), $state, $set);
 	}
 	
 	public function enableForceRefresh()
