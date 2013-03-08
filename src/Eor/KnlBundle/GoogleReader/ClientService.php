@@ -8,7 +8,7 @@
  * file that was distributed with this source code. 
  */
 
-namespace Eor\KnlBundle\GoogleReader\Wrapper;
+namespace Eor\KnlBundle\GoogleReader;
 
 use Eor\KnlBundle\GoogleReader\Client;
 use Eor\KnlBundle\GoogleReader\Model\Index;

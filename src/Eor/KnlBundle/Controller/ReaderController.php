@@ -19,7 +19,7 @@ class ReaderController extends Controller
 {
     public function indexAction()
     {
-		/* @var $greader \Eor\KnlBundle\GoogleReader\Wrapper\ClientService */
+		/* @var $greader \Eor\KnlBundle\GoogleReader\ClientService */
 		$greader = $this->get('greader_service');
 		
         return $this->render('EorKnlBundle:Reader:index.html.twig', array(
@@ -42,7 +42,7 @@ class ReaderController extends Controller
 	
 	private function getItemList($id, $continuation)
 	{
-		/* @var $greader \Eor\KnlBundle\GoogleReader\Wrapper\ClientService */
+		/* @var $greader \Eor\KnlBundle\GoogleReader\ClientService */
 		$greader = $this->get('greader_service');
 
 		$subscriptions = $greader->getSubscriptions();
@@ -109,7 +109,7 @@ class ReaderController extends Controller
 	
 	public function forceRefreshAction()
 	{
-		/* @var $greader \Eor\KnlBundle\GoogleReader\Wrapper\ClientService */
+		/* @var $greader \Eor\KnlBundle\GoogleReader\ClientService */
 		$greader = $this->get('greader_service');
 		$greader->enableForceRefresh();
 		

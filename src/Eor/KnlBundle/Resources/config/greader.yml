@@ -1,7 +1,7 @@
 parameters:
     greader_config.class: Eor\KnlBundle\GoogleReader\Configuration
     greader_client.class: Eor\KnlBundle\GoogleReader\Client
-    greader_service.class: Eor\KnlBundle\GoogleReader\Wrapper\ClientService
+    greader_service.class: Eor\KnlBundle\GoogleReader\ClientService
     greader_exception_listener.class: Eor\KnlBundle\GoogleReader\Listener\ExceptionListener
 
 services:
