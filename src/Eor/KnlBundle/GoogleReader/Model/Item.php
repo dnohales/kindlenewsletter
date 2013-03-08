@@ -10,6 +10,8 @@
 
 namespace Eor\KnlBundle\GoogleReader\Model;
 
+use Eor\KnlBundle\Html2Text\Html2Text;
+
 /**
  * Description of Item
  *
@@ -128,7 +130,7 @@ class Item
 	
 	public function isSummarized()
 	{
-		return strlen($this->content) < 512;
+		return strlen(Html2Text::convert($this->content)) < 512;
 	}
 
 	public function getNormalizedContent()
