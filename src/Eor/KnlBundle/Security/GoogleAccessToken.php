@@ -20,12 +20,12 @@ use Eor\KnlBundle\GoogleReader\TokenInformation;
  */
 class GoogleAccessToken extends AbstractToken
 {
-	private $tokenInformation;
+	const KEY_TOKEN_INFORMATION = 'greader.client_token_information';
 	
 	public function __construct(TokenInformation $tokenInformation)
 	{
 		parent::__construct(array('ROLE_USER'));
-		$this->tokenInformation = $tokenInformation;
+		$this->setAttribute(self::KEY_TOKEN_INFORMATION, $tokenInformation);
 		$this->setAuthenticated(true);
 	}
 	
@@ -36,23 +36,7 @@ class GoogleAccessToken extends AbstractToken
 	
 	public function getTokenInformation()
 	{
-		return $this->tokenInformation;
+		return $this->hasAttribute(self::KEY_TOKEN_INFORMATION)? $this->getAttribute(self::KEY_TOKEN_INFORMATION):null;
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function serialize()
-	{
-		return serialize(array($this->tokenInformation, parent::serialize()));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unserialize($str)
-	{
-		list($this->tokenInformation, $parentStr) = unserialize($str);
-		parent::unserialize($parentStr);
-	}
 }
